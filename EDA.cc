@@ -7,10 +7,12 @@
 #include<queue>
 #include<algorithm>
 #include<map>
+#include<string>
 using namespace std;
 int n,m;//For max lenth
 int cnt_m;
 map <int, int>refer;
+map <string , int> ans_visit;
 struct node
 {	
 	int one_num;
@@ -101,8 +103,9 @@ void work(int oder)//simplify once
 //		sum += db[i].size();
 		for(iti = db[i].begin(); iti != db[i].end() ;iti++)
 		{
-			if((*iti).visit == 0)
-			{ans.push_back((*iti));}
+			string stst;stst="";stst = (*iti).bit_num;
+			if((*iti).visit == 0 && ans_visit[stst] == 0)
+			{ans_visit[stst] = 1;ans.push_back((*iti));}
 		}
 	}
 	//cout<<dbt.size()<<endl;
@@ -179,6 +182,8 @@ void out()
 		vul1.select = 0 | sp2[pos];
 		pos++;
 		q.push(vul1);
+	//	for(int i = n-1; i >= 0; i--)
+	//	printf("%d",(*iti).bit_num[i]);printf("\n");
 	}
 	
 	//-----------BFS starting -----------------
@@ -224,7 +229,7 @@ int main()
 		input_data[i] = tmp;
 		se.val = tmp; se.one_num = 0;se.visit = 0;
 		pos = 0;
-		for(int i = 0; i < 24 ; i++)se.bit_num[i] = 0;
+		for(int i = 0; i < 24 ; i++)se.bit_num[i] = '\0';
 		while (tmp != 0)
 		{
 			se.bit_num[pos++] = tmp % 2;
