@@ -39,38 +39,20 @@ bool cmp(const node &a,const node &b)
 	return a < b;
 }
 
-bool check(bool ab[], int num) //if ab contains 1 , return 1
-{
-	bool flag = 0;
-	for(int i = 0; i < num; i++)
-	flag |= ab[i];
-	return flag;
-}
 int uni_digital(char s1[], char s2[], int bitnum, int & pos)// find unique number & find its position
 {
 	int sum=0;
 	for(int i = 0; i < bitnum; i++)if(s1[i] != s2[i]) {sum++; pos=i;}
-//	printf("uni_d:sum=%d,pos=%d\n",sum,pos);
 	return sum;
 }
 void work(int oder)//simplify once
 {
-	//bool *f = new bool [slid_num];
-	//for(int i = 0; i < slid_num; i++)f[i] = 0;
-//	printf("work:oder = %d\n", oder);
 	int pos = 0, posn =0;
 	vector <node>::iterator iti,itj;
 	vector <int>::iterator itk;
 	pos = 0;
 	vector <node> entry;
 	node entru;
-	//cnt_m = 0;
-	//-------test---------
-//	iti=db[0].begin();itj=db[0].end();
-//	printf("CMD%d,%d\n", iti->val, itj->val);
-//	if(iti != itj ) cout<<"CNMM+!!!!!!!!\n";
-	//	printf("CNM=%d", db[1][0].val);
-	//printf("db_size=%lu\n", db[1].size());
 	for(int i = 0; i <= oder - 1; i++)
 	{
 		entry.clear();
@@ -103,7 +85,12 @@ void work(int oder)//simplify once
 //		sum += db[i].size();
 		for(iti = db[i].begin(); iti != db[i].end() ;iti++)
 		{
-			string stst;stst="";stst = (*iti).bit_num;
+			string stst;stst="";//stst = (*iti).bit_num;
+		//	cout<<"stst="<<stst<<endl;
+			for(int i = n-1; i >= 0; i--)
+			stst += (char)((*iti).bit_num[i] + '0');
+		//	printf("%d",(*iti).bit_num[i]);printf("\n");
+	//		cout<<"stst" << stst <<endl;	
 			if((*iti).visit == 0 && ans_visit[stst] == 0)
 			{ans_visit[stst] = 1;ans.push_back((*iti));}
 		}
@@ -170,7 +157,7 @@ void out()
 	vector <int>::iterator itj;
 	resul_num.clear();
 	int s = 1;
-	for(int i = 0; i <= m; i++){sp2[i] = s; s*=2;}
+	for(int i = 0; i <= m + 1; i++){sp2[i] = s; s*=2;}
 	queue <BFS_node> q;BFS_node vul1, vul2;
 	map <int, int> visitor;visitor.clear();
 	int pos=0;
@@ -182,8 +169,8 @@ void out()
 		vul1.select = 0 | sp2[pos];
 		pos++;
 		q.push(vul1);
-	//	for(int i = n-1; i >= 0; i--)
-	//	printf("%d",(*iti).bit_num[i]);printf("\n");
+		for(int i = n-1; i >= 0; i--)
+		printf("%d",(*iti).bit_num[i]);printf("\n");
 	}
 	
 	//-----------BFS starting -----------------
@@ -241,23 +228,16 @@ int main()
 	}
 	sort(ori.begin(), ori.end(), cmp);
 	db.resize(n+1);pos=0;
-//	printf("\ntest:%d %d\n",ori[0].one_num, ori[1].one_num);	
 	for(int i = 0; i <= n; i++)//Init Original database
 	{
-	//	printf("i=%d\n",i);	
 		while(pos < m && ori[pos].one_num == i )
 		{
 			ord = max(ord, i );
 			db[i].push_back(ori[pos]);
-			//printf("ord=%d i= %d, pos=%d\n", ord, i, pos);
 			pos++;
-			//printf("ord=%d i= %d\n", ord, i);
 		}
 		size[i] = pos;
-//		dbt[i].resize(db.size());
 	}
-//	printf("dbsize:%d,%d\n",db[0].size(),db[1].size());
-//	cpy_db(dbt, db);
 	out();
 	return 0;
 }
